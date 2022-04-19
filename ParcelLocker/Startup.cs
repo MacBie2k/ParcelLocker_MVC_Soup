@@ -6,6 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ParcelLocker.Models;
+using ParcelLocker.Models.IRepositories;
+using ParcelLocker.Models.IServices;
+using ParcelLocker.Models.Repositories;
+using ParcelLocker.Models.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +29,17 @@ namespace ParcelLocker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ParcelLockerContext>(options => options.UseMySQL(Configuration.GetConnectionString("MySqlReelCS")));
+            services.AddScoped<IComplaintReasonRepository, ComplaintReasonRepository>();
+            services.AddScoped<IComplaintRepository, ComplaintRepository>();
+            services.AddScoped<ILockerRepository, LockerRepository>();
+            services.AddScoped<IParcelRepository, ParcelRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ILockerService, LockerService>();
+            services.AddScoped<IParcelService, ParcelService>();
+            services.AddScoped<IComplaintService, ComplaintService>();
+            services.AddScoped<IComplaintReasonService, ComplaintReasonService>();
+            services.AddScoped<ICourierService, CourierService>();
+            services.AddDbContext<ParcelLockerContext>(options => options.UseMySQL(Configuration.GetConnectionString("ParcelLockerCS")));
 
             services.AddControllersWithViews();
         }
@@ -33,6 +47,7 @@ namespace ParcelLocker
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -54,7 +69,7 @@ namespace ParcelLocker
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=User}/{action=GetParcel}/{id?}");
             });
         }
     }

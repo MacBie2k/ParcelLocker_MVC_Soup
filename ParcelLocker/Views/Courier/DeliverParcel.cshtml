@@ -1,0 +1,67 @@
+﻿@model ParcelLocker.Models.ViewModels.ParcelCollectionVM;
+@{
+    ViewData["Title"] = "DeliverParcel";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
+
+
+    </div>
+</nav>
+
+<h1 class="text-center"></h1>
+<div class="line"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered parcelsToCollect">
+                <thead>
+                    <tr>
+                        <th scope="col">Lp.</th>
+                        <th scope="col">Numer Paczki</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{
+                        int counter = 1;
+
+                        foreach (var item in Model.Parcels)
+                        {
+                            <tr>
+                                <th scope="row">@counter</th>
+                                <td>@item.ParcelNumber</td>
+
+
+                                <td>
+                                    <a asp-controller="Courier" asp-action="Delivery" asp-route-parcelNumber="@item.ParcelNumber"><button type="button" class="btn btn-warning"><i>Zabierz</i></button></a>
+                                </td>
+                            </tr>
+                            counter = counter + 1;
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@{
+    if (ViewBag.Message != null)
+    {
+
+        <script type="text/javascript">
+            window.onload = function() {
+                alert("@(ViewBag.Message)");
+            };
+        </script>
+    }
+}

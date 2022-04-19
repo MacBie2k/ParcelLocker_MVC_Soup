@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -28,22 +28,19 @@
             <ul class="list-unstyled components">
                 <h2 class="navheader">PACZKOMAT</h2>
                 <li>
-                    <a asp-controller="User" asp-action="GetParcel">Odbierz paczkę</a>
+                    <a asp-controller="Courier" asp-action="DeliverParcel">Dostarcz Paczkę</a>
                 </li>
                 <li>
-                    <a asp-controller="User" asp-action="SendParcel">Nadaj paczkę</a>
+                    <a asp-controller="Courier" asp-action="CollectParcel">Zabierz Paczkę</a>
                 </li>
                 <li>
-                    <a asp-controller="User" asp-action="SendComplaint">Reklamacja</a>
-                </li>
-                <li>
-                    <a asp-controller="User" asp-action="MapView">Paczkomaty</a>
+                    <a asp-controller="Courier" asp-action="DownloadCSV">Pobierz Plik CSV</a>
                 </li>
             </ul>
 
-            <ul class="list-unstyled CTAs ">
+            <ul class="list-unstyled CTAs">
                 <li>
-                    <a class="courierToggle" asp-controller="Courier" asp-action="CollectParcel">Jesteś kurierem?</a>
+                    <a asp-controller="Courier" asp-action="Logout" class="courierToggle">Wyloguj</a>
                 </li>
             </ul>
         </nav>

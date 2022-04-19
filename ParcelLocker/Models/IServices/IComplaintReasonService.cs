@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace ParcelLocker.Models.IServices
 {
-    public interface ILockerService
+    public interface IComplaintReasonService
     {
-        IEnumerable<LockerVM> GetAllLockers();
-        LockerVM GetLockerByCode(string code);
+        IEnumerable<ComplaintReasonVM> GetAllReasons();
     }
 }

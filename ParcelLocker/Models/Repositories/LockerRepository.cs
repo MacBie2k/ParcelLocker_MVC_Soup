@@ -16,9 +16,9 @@ namespace ParcelLocker.Models.Repositories
         {
             return _parcelockerContext.Lockers;
         }
-        public Locker Get(string lockerCode)
+        public Locker Get(string code)
         {
-            return _parcelockerContext.Lockers.SingleOrDefault(x => x.Id == lockerId);
+            return _parcelockerContext.Lockers.SingleOrDefault(x => x.Code == code);
         }
         public Locker Add(Locker locker)
         {

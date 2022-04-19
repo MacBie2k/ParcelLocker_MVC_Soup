@@ -1,4 +1,5 @@
 ﻿using ParcelLocker.ExtensionMethods;
+using ParcelLocker.Models.Entities;
 using ParcelLocker.Models.IServices;
 using ParcelLocker.Models.ModelViews;
 using ParcelLocker.Models.ViewModels;
@@ -12,12 +13,16 @@ namespace ParcelLocker.Models.Services
     {
         private readonly IParcelService _parcelService;
         private readonly ILockerService _lockerService;
-        public UserService(IParcelService parcelService, ILockerService lockerService)
+        private readonly IComplaintService _complaintService;
+        private readonly IComplaintReasonService _complaintReasonService;
+        public UserService(IParcelService parcelService, ILockerService lockerService, IComplaintService complaintService, IComplaintReasonService complaintReasonService)
         {
             _parcelService = parcelService;
             _lockerService = lockerService;
+            _complaintService = complaintService;
+            _complaintReasonService = complaintReasonService;
         }
-        public void SendParcel(string senderPhone, string senderEmail, string receiverPhone, string receiverEmail, Status status, string lockerCode)
+        public void SendParcel(string senderPhone, string senderEmail, string receiverPhone, string receiverEmail, string lockerCode)
         {
             string parcelNumber;
             string pickupCode;
@@ -28,41 +33,68 @@ namespace ParcelLocker.Models.Services
                 pickupCode = GenerateNumber.RandomNumber(6);
             } while (parcels.SingleOrDefault(x => x.ParcelNumber == parcelNumber || x.PickupCode == pickupCode) != null);
 
-            var newParcel = new ParcelVM {
+            var newParcel = new ParcelVM
+            {
                 ParcelNumber = parcelNumber,
                 PickupCode = pickupCode,
                 SenderEmail = senderEmail,
                 SenderPhone = senderPhone,
                 ReceiverPhone = receiverPhone,
                 ReceiverEmail = receiverEmail,
-                Status = status,
-                LockerCode = lockerCode
+                Status = Status.nadana,
+                LockerCode = _lockerService.GetLockerByCode(lockerCode).Code
 
             };
             _parcelService.AddNewParcel(newParcel);
         }
-        public void GetParcel(string receiverPhone, string pickupCode)
+        public ParcelVM GetParcel(string receiverPhone, string pickupCode)
         {
-            var parcel = _parcelService.GetAllParcels().SingleOrDefault(x => x.ReceiverPhone == receiverPhone && x.PickupCode == pickupCode);
-            parcel.Status = Status.odebrana;
-            _parcelService.UpdateParcel(parcel);
+            var parcel = _parcelService.GetAllParcels().SingleOrDefault(x => x.ReceiverPhone == receiverPhone && x.PickupCode == pickupCode && x.Status == Status.dostarczona);
+            if (parcel != null)
+            {
+                parcel.Status = Status.odebrana;
+                _parcelService.UpdateParcel(parcel);
+                return parcel;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public void ReturnParcel(string receiverPhone, string parcelNumber, string comment, IEnumerable<ComplaintReasonVM> reasons)
+        public bool ReturnParcel(string receiverPhone, string receiverEmail, string parcelNumber, string comment, ICollection<ComplaintReasonVM> reasons)
         {
-            var parcel = _parcelService.GetAllParcels().SingleOrDefault(x => x.ReceiverPhone == receiverPhone && x.PickupCode == parcelNumber);
+            var parcel = _parcelService.GetAllParcels().SingleOrDefault(x => x.ReceiverPhone == receiverPhone && x.PickupCode == parcelNumber && x.ReceiverEmail == receiverEmail);
             if (parcel != null && parcel.Status == Status.odebrana)
             {
                 parcel.Status = Status.zwrocona;
                 _parcelService.UpdateParcel(parcel);
+                var res = reasons.Select(x => new ComplaintReason
+                {
+                    Name = x.Name
+                }).ToList();
+                var complaintVM = new ComplaintVM
+                {
+                    Comment = comment,
+                    Email = receiverEmail,
+                    Phone = receiverPhone,
+                    ParcelNumber = parcelNumber,
+                    Reasons = reasons
+                };
+                _complaintService.AddNewComplaint(complaintVM);
+                //dodawanie nowego zwrotu;
+                return true;
             }
-            else
-            {
-                throw new Exception("Can't return this parcel");
-            }
+            return false;
 
-            
         }
-        
+        public IEnumerable<LockerVM> GetLockers()
+        {
+            return _lockerService.GetAllLockers();
+        }
+        public IEnumerable<ComplaintReasonVM> GetComplaintReasons()
+        {
+            return _complaintReasonService.GetAllReasons();
+        }
     }
 }

@@ -7,8 +7,9 @@ namespace ParcelLocker.Models.ViewModels
     {
         public int Id { get; set; }
         public string Email { get; set; }
-        public int ParcelNumber { get; set; }
+        public string Phone { get; set; }
+        public string ParcelNumber { get; set; }
         public string Comment { get; set; }
-        public ICollection<ComplaintReason> Reasons { get; set; }
+        public ICollection<ComplaintReasonVM> Reasons { get; set; }
     }
 }

@@ -7,9 +7,10 @@ namespace ParcelLocker.Models.Entities
     [Table("lockers")]
     public class Locker
     {
-        [Key]
+
         [Column("id")]
         public int Id { get; set; }
+        [Key]
         [Column("code")]
         public string Code { get; set; }
         [Required]

@@ -1,0 +1,74 @@
+﻿@model ParcelLocker.Models.ViewModels.AccessVM
+
+@{
+    ViewData["Title"] = "GetParcel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <!-- <button type="button" id="sidebarCollapse" class="btn btn-info">
+             <i class="fas fa-align-left"></i>
+             <span>Toggle Sidebar</span>
+         </button>-->
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
+
+
+    </div>
+</nav>
+
+<h1 class="text-center">ODBIERZ PACZKĘ</h1>
+<p>Aby odebrać paczkę wprowadź swój numer telefonu oraz kod odbioru.</p>
+<div class="line"></div>
+<div class="row">
+
+    <div class="column">
+        <div id="pinpad">
+            <form>
+                <input type="button" value="1" id="1" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '1';"></button>
+                <input type="button" value="2" id="2" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '2';"></button/>
+                <input type="button" value="3" id="3" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '3';"></button><br>
+                <input type="button" value="4" id="4" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '4';"></button>
+                <input type="button" value="5" id="5" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '5';"></button>
+                <input type="button" value="6" id="6" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '6';"></button><br>
+                <input type="button" value="7" id="7" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '7';"></button>
+                <input type="button" value="8" id="8" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '8';"></button>
+                <input type="button" value="9" id="9" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '9';"></button><br>
+                <input type="button" value="" id="clear" class="clear" />
+                <input type="button" value="0" id="0 " class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '0';"></button>
+                <input type="button" value="" id="enter" class=" enter" />
+            </form>
+        </div>
+
+
+    </div>
+    <div class="column">
+        <form asp-action="GetParcel" style="height:369px;">
+            <div class="form-group">
+                <label for="code">Numer telefonu</label>
+                <input asp-for="PhoneNumber" type="Number" class="form-control" id="code" aria-describedby="" required="" placeholder="Numer telefonu">
+            </div>
+            <div class="form-group">
+                <label>Kod odbioru</label>
+                <input asp-for="Code" type="number" class="form-control" id="pickupCode" required="" placeholder="Kod odbioru">
+            </div>
+
+            <button type="submit" class="btn btn-warning btnConfirm">Odbierz</button>
+        </form>
+    </div>
+
+</div>
+@{
+    if (ViewBag.Message != null)
+    {
+        
+        <script type="text/javascript">
+        window.onload = function() {
+            alert("@(ViewBag.Message)"); 
+        };
+    </script>
+}
+}
+

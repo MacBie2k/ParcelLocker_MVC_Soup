@@ -12,7 +12,7 @@ namespace ParcelLocker.Models.Services
         {
             _lockerRepository = lockerRepository;
         }
-        public IEnumerable<LockerVM> GetAllParcels()
+        public IEnumerable<LockerVM> GetAllLockers()
         {
             var lockers  = _lockerRepository.GetAll();
             var lockersVN = new List<LockerVM>();
