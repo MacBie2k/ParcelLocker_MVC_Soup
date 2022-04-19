@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ParcelLocker.Models;
+using ParcelLocker.Models.Entities;
 using ParcelLocker.Models.IRepositories;
 using ParcelLocker.Models.IServices;
 using ParcelLocker.Models.Repositories;
@@ -39,9 +43,16 @@ namespace ParcelLocker
             services.AddScoped<IComplaintService, ComplaintService>();
             services.AddScoped<IComplaintReasonService, ComplaintReasonService>();
             services.AddScoped<ICourierService, CourierService>();
-            services.AddDbContext<ParcelLockerContext>(options => options.UseMySQL(Configuration.GetConnectionString("ParcelLockerCS")));
-
+           // services.AddDbContext<ParcelLockerContext>(options => options.UseMySQL(Configuration.GetConnectionString("ParcelLockerCS")));
+            services.AddDbContext<ParcelLockerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ParcelLockerCS")));
             services.AddControllersWithViews();
+            services.AddIdentity<Courier, IdentityRole>()
+                .AddEntityFrameworkStores<ParcelLockerContext>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.ConfigureApplicationCookie(o =>
+            {
+                o.LoginPath = new PathString("/Courier/Index");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +73,7 @@ namespace ParcelLocker
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

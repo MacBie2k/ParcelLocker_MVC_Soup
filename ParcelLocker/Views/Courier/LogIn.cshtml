@@ -1,0 +1,33 @@
+﻿@model ParcelLocker.Models.ViewModels.LogInVM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="~/css/login.css">
+
+
+
+</head>
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+
+            <form asp-action="LogIn">
+                <input type="text" id="login" asp-for="Login" class="fadeIn second" name="login" placeholder="login">
+                <input type="password" id="password" asp-for="Password" class="fadeIn third" name="password" placeholder="password">
+                <input type="submit" class="fadeIn fourth bg-warning" value="Zaloguj">
+            </form>
+
+
+
+        </div>
+    </div>
+</body>
+</html>

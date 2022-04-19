@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ParcelLocker.Models.IServices;
 using ParcelLocker.Models.ViewModels;
 using System.Text;
@@ -15,11 +16,60 @@ namespace ParcelLocker.Controllers
 
         }
         [HttpGet]
+        public IActionResult LogIn()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult LogIn(LogInVM data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(data);
+            }
+            if (_courierService.LogIn(data.Login, data.Password))
+            {
+                return RedirectToAction("DeliverParcel");
+            }
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Register()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Register(RegisterVM data)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(data);
+            }
+            if (_courierService.Register(data.Login, data.FirstName, data.LastName, data.Password))
+            {
+                return RedirectToAction("LogIn", "Courier");
+            }
+            return View(data);
+        }
+        [Authorize]
+        [HttpGet]
+        public IActionResult LogOut()
+        {
+            _courierService.LogOut();
+            return RedirectToAction("GetParcel", "User");
+        }
+
+        
+        [Authorize]
+        [HttpGet]
         public IActionResult DeliverParcel()
         {
             var vm = _courierService.GetParcelsToDeliver();
             return View(vm);
         }
+        [Authorize]
         [HttpGet]
         public IActionResult Delivery(string parcelNumber)
         {
@@ -36,12 +86,14 @@ namespace ParcelLocker.Controllers
 
             return RedirectToAction("DeliverParcel");
         }
+        [Authorize]
         [HttpGet]
         public IActionResult CollectParcel()
         {
             var vm = _courierService.GetParcelsToCollect();
             return View(vm);
         }
+        [Authorize]
         [HttpGet]
         public IActionResult Collection(string parcelNumber)
         {
@@ -59,6 +111,7 @@ namespace ParcelLocker.Controllers
 
             return RedirectToAction("CollectParcel");
         }
+        [Authorize]
         [HttpGet]
         public IActionResult DownloadCSV()
         {

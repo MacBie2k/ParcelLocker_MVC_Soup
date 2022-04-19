@@ -46,6 +46,8 @@ namespace ParcelLocker.Models.Services
 
             };
             _parcelService.AddNewParcel(newParcel);
+            MailClient.SendMail(parcelNumber, "Paczka nadana!", $"Paczka {parcelNumber} została przez Ciebie nadana", newParcel.SenderEmail);
+            MailClient.SendMail(parcelNumber, "Paczka nadana!", $"Paczka {parcelNumber} została do Ciebie nadana", newParcel.ReceiverEmail);
         }
         public ParcelVM GetParcel(string receiverPhone, string pickupCode)
         {
@@ -54,6 +56,7 @@ namespace ParcelLocker.Models.Services
             {
                 parcel.Status = Status.odebrana;
                 _parcelService.UpdateParcel(parcel);
+                MailClient.SendMail(parcel.ParcelNumber, "Paczka odebrana!", $"Paczka {parcel.ParcelNumber} została do Ciebie nadana", parcel.ReceiverEmail);
                 return parcel;
             }
             else

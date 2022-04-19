@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ParcelLocker.Models.Entities;
 
 namespace ParcelLocker.Models
 {
-    public class ParcelLockerContext : DbContext
+    public class ParcelLockerContext : IdentityDbContext<Courier>
     {
         public ParcelLockerContext(DbContextOptions options) : base(options)
         {

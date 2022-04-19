@@ -12,5 +12,8 @@ namespace ParcelLocker.Models.IServices
         public ParcelCollectionVM GetParcelsToCollect();
         public ParcelCollectionVM GetParcelsToDeliver();
         public StringBuilder ExportCSVFile();
+        public bool Register(string login, string firstName, string lastName, string password);
+        public bool LogIn(string login, string password);
+        public void LogOut();
     }
 }
