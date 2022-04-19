@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Reklamacja</title>
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <img class="headerLogo" style="width:150px;"src="resources/images/logo.png" alt="logo">
+        </div>
+
+        <ul class="list-unstyled components">
+            <h2 class="navheader">PACZKOMAT</h2>
+            <li>
+                <a href="index.html">Odbierz paczkę</a>
+            </li>
+            <li>
+                <a href="send.html">Nadaj paczkę</a>
+            </li>
+            <li>
+                <a href="complaintView.html">Reklamacja</a>
+            </li>
+            <li>
+                <a href="contactView.html">Kontakt</a>
+            </li>
+            <li>
+                <a href="mapView.html">Paczkomaty</a>
+            </li>
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li>
+                <a href="" class="courierToggle">Jesteś kurierem?</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+        <h1 class="text-center">REKLAMACJA</h1>
+        <p>Masz problem ze swoją paczką? Nie jesteś zadowolony z obsługi? W tym miejscu możesz złożyć reklamację.</p>
+
+            <form style="height:550px; width:80%;margin-left:100px;">
+                <div class="form-group">
+                    <label>Adres email</label>
+                    <input type="email" class="form-control" id="recipientEmail2" required="" placeholder="przykład@mail.com">
+                </div>
+                <div class="form-group" >
+                    <label for="parcelNumber">Numer paczki</label>
+                    <input type="text" class="form-control" id="parcelNumber" aria-describedby="" required="" placeholder="Numer paczki">
+                </div>
+                <div class="form-group">
+                    <label>Powód reklamacji</label><br>
+
+                    <select class="lockerSelect" name="parcelLockers" id="lockerSelect " required="">
+                        <option value="">--Wybierz--</option>
+                        <option value="Uszkodzona">Uszkodzona</option>
+                        <option value="Zagubiona">Zagubiona</option>
+                        <option value="Niewłaściwa przesyłka">Niewłaściwa przesyłka</option>
+                        <option value="Brak paczki">Brak paczki</option>
+                        <option value="Inne">Inne</option>
+                    </select>
+
+                </div>
+                    <div class="form-group">
+                        <label for="commentsText">Uwagi</label>
+                        <textarea class="form-control" id="commentsText"  rows="5"></textarea>
+                    </div>
+                <button type="submit" class="btn btn-warning">Wyślij</button>
+                </form>
+
+        </div>
+</div>
+
+
+
+
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
+        });
+
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar, #content').toggleClass('active');
+            $('.collapse.in').toggleClass('in');
+            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+    });
+</script>
+</body>
+
+</html>
