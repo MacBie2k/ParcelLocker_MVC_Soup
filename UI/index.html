@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Paczkomat</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <img class="headerLogo" style="width:150px;"src="resources/images/logo.png" alt="logo">
+        </div>
+
+        <ul class="list-unstyled components">
+            <h2 class="navheader">PACZKOMAT</h2>
+            <li>
+                <a href="index.html">Odbierz paczkę</a>
+            </li>
+            <li>
+                <a href="send.html">Nadaj paczkę</a>
+            </li>
+            <li>
+                <a href="complaintView.html">Reklamacja</a>
+            </li>
+            <li>
+                <a href="contactView.html">Kontakt</a>
+            </li>
+            <li>
+                <a href="mapView.html">Paczkomaty</a>
+            </li>
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li>
+                <a href="" class="courierToggle">Jesteś kurierem?</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                 <!--<button type="button" id="sidebarCollapse" class="btn btn-info">
+                     <i class="fas fa-align-left"></i>
+                     <span>Toggle Sidebar</span>
+                 </button>-->
+
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+
+
+            </div>
+        </nav>
+
+        <h1 class="text-center">ODBIERZ PACZKĘ</h1>
+        <p>Aby odebrać paczkę wprowadź swój numer telefonu oraz kod odbioru.</p>
+        <div class="line"></div>
+        <div class="row">
+
+            <div class="column">
+                <div id="pinpad">
+                    <form >
+                        <input type="button" value="1" id="1" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '1';"></button>
+                        <input type="button" value="2" id="2" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '2';"></button/>
+                        <input type="button" value="3" id="3" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '3';"></button><br>
+                        <input type="button" value="4" id="4" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '4';"></button>
+                        <input type="button" value="5" id="5" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '5';"></button>
+                        <input type="button" value="6" id="6" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '6';"></button><br>
+                        <input type="button" value="7" id="7" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '7';"></button>
+                        <input type="button" value="8" id="8" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '8';"></button>
+                        <input type="button" value="9" id="9" class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '9';"></button><br>
+                        <input type="button" value="Wyczyść" id="clear" class="pinButton clear"/>
+                        <input type="button" value="0" id="0 " class="pinButton calc" onclick="document.getElementById('code').value=document.getElementById('code').value + '0';"></button>
+                        <input type="button" value="Enter" id="enter" class="pinButton enter"/>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="column">
+                <form style="height:369px;">
+                    <div class="form-group" >
+                        <label for="code">Numer telefonu</label>
+                        <input type="phoneNumber" class="form-control" id="code" aria-describedby="" required="" placeholder="Numer telefonu">
+                    </div>
+                    <div class="form-group">
+                        <label>Kod odbioru</label>
+                        <input type="number" class="form-control" id="pickupCode" required="" placeholder="Kod odbioru">
+                    </div>
+
+                    <button type="submit" class="btn btn-warning btnConfirm">Odbierz</button>
+                </form>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
+        });
+
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar, #content').toggleClass('active');
+            $('.collapse.in').toggleClass('in');
+            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+    });
+</script>
+</body>
+
+</html>
