@@ -34,6 +34,9 @@ namespace ParcelLocker.Controllers
             return View();
         }
         [HttpGet]
+#if DEBUG
+       
+
         public IActionResult Register()
         {
 
@@ -53,6 +56,7 @@ namespace ParcelLocker.Controllers
             }
             return View(data);
         }
+#endif
         [Authorize]
         [HttpGet]
         public IActionResult LogOut()

@@ -16,21 +16,30 @@ namespace ParcelLocker.Models.Services
             _complaintRepository = complaintRepository;
             _parcelService = parcelService;
         }
-        public ComplaintVM AddNewComplaint(ComplaintVM parcelVM)
+        public ComplaintVM AddNewComplaint(ComplaintVM complaintVM)
         {
-            if (parcelVM == null)
+            if (complaintVM == null)
             {
-                return null; 
+                return null;
             }
             var complaint = new Complaint
             {
-                Email = parcelVM.Email,
-                Reasons = parcelVM.Reasons.Select(x => new ComplaintReason {Name = x.Name}).ToList(),
-                ParcelNumber = parcelVM.ParcelNumber,
-                Phone = parcelVM.Phone,
+                Email = complaintVM.Email,
+                ParcelNumber = complaintVM.ParcelNumber,
+                Phone = complaintVM.Phone,
+                Comment = complaintVM.Comment,
 
             };
-            return parcelVM;
+            _complaintRepository.Add(complaint);
+            return _complaintRepository.GetAll().Select(x => new ComplaintVM
+            {
+                Id = x.ComplaintId,
+                Comment = x.Comment,
+                Email = x.Email,
+                Phone = x.Phone,
+                ParcelNumber = x.ParcelNumber,
+            }).SingleOrDefault(x => x.ParcelNumber == complaintVM.ParcelNumber);
+
         }
     }
 }

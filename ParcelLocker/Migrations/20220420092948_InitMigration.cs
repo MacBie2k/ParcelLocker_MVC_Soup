@@ -49,7 +49,20 @@ namespace ParcelLocker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "complaint_reasons",
+                name: "lockers",
+                columns: table => new
+                {
+                    code = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    city = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    street = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_lockers", x => x.code);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "reasons",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -58,21 +71,7 @@ namespace ParcelLocker.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_complaint_reasons", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "lockers",
-                columns: table => new
-                {
-                    code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    id = table.Column<int>(type: "int", nullable: false),
-                    city = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    street = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_lockers", x => x.code);
+                    table.PrimaryKey("PK_reasons", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,7 +185,6 @@ namespace ParcelLocker.Migrations
                 columns: table => new
                 {
                     parcel_number = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    id = table.Column<int>(type: "int", nullable: false),
                     pickup_code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     sender_phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     sender_email = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -229,25 +227,25 @@ namespace ParcelLocker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ComplaintComplaintReason",
+                name: "complaint_reasons",
                 columns: table => new
                 {
-                    ComplaintsId = table.Column<int>(type: "int", nullable: false),
-                    ReasonsId = table.Column<int>(type: "int", nullable: false)
+                    complaint_id = table.Column<int>(type: "int", nullable: false),
+                    reason_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ComplaintComplaintReason", x => new { x.ComplaintsId, x.ReasonsId });
+                    table.PrimaryKey("PK_complaint_reasons", x => new { x.complaint_id, x.reason_id });
                     table.ForeignKey(
-                        name: "FK_ComplaintComplaintReason_complaint_reasons_ReasonsId",
-                        column: x => x.ReasonsId,
-                        principalTable: "complaint_reasons",
+                        name: "FK_complaint_reasons_complaints_complaint_id",
+                        column: x => x.complaint_id,
+                        principalTable: "complaints",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ComplaintComplaintReason_complaints_ComplaintsId",
-                        column: x => x.ComplaintsId,
-                        principalTable: "complaints",
+                        name: "FK_complaint_reasons_reasons_reason_id",
+                        column: x => x.reason_id,
+                        principalTable: "reasons",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -292,9 +290,9 @@ namespace ParcelLocker.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComplaintComplaintReason_ReasonsId",
-                table: "ComplaintComplaintReason",
-                column: "ReasonsId");
+                name: "IX_complaint_reasons_reason_id",
+                table: "complaint_reasons",
+                column: "reason_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_complaints_parcel_number",
@@ -325,7 +323,7 @@ namespace ParcelLocker.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ComplaintComplaintReason");
+                name: "complaint_reasons");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -334,10 +332,10 @@ namespace ParcelLocker.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "complaint_reasons");
+                name: "complaints");
 
             migrationBuilder.DropTable(
-                name: "complaints");
+                name: "reasons");
 
             migrationBuilder.DropTable(
                 name: "parcels");

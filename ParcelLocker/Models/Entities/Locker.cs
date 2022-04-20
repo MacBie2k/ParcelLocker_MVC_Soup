@@ -7,11 +7,11 @@ namespace ParcelLocker.Models.Entities
     [Table("lockers")]
     public class Locker
     {
-
-        [Column("id")]
-        public int Id { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[Column("id", Order = 0)]
+        //public int Id { get; set; }
         [Key]
-        [Column("code")]
+        [Column("code", Order = 1)]
         public string Code { get; set; }
         [Required]
         [Column("city")]

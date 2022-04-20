@@ -6,12 +6,12 @@ namespace ParcelLocker.Models.Entities
     [Table("parcels")]
     public class Parcel
     {
-        
-        [Column("id")]
-        public int Id { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[Column("id", Order =0)]
+        //public int Id { get; set; }
         [Key]
         [Required]
-        [Column("parcel_number")]
+        [Column("parcel_number", Order = 1)]
         public string ParcelNumber { get; set; }
         [Required]
         [Column("pickup_code")]

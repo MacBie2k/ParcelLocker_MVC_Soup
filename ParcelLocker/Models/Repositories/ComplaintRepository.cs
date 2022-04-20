@@ -18,10 +18,14 @@ namespace ParcelLocker.Models.Repositories
         }
         public Complaint Get(int complaintId)
         {
-            return _parcelockerContext.Complaints.SingleOrDefault(x => x.Id == complaintId);
+            return _parcelockerContext.Complaints.SingleOrDefault(x => x.ComplaintId == complaintId);
         }
         public Complaint Add(Complaint complaint)
         {
+            if(complaint == null)
+            {
+                return null;
+            }
             _parcelockerContext.Complaints.Add(complaint);
             _parcelockerContext.SaveChanges();
             return complaint;

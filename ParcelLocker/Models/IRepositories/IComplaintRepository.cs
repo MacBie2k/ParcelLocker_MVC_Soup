@@ -7,8 +7,8 @@ namespace ParcelLocker.Models.IRepositories
     {
         IEnumerable<Complaint> GetAll();
         Complaint Get(int complaintId);
-        Complaint Add(Complaint parcel);
-        void Update(Complaint parcel);
-        void Delete(Complaint parcel);
+        Complaint Add(Complaint complaint);
+        void Update(Complaint complaint);
+        void Delete(Complaint complaint);
     }
 }

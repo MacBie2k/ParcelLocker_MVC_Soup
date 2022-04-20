@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ParcelLocker.Models.IServices;
 using ParcelLocker.Models.ViewModels;
 using System.Collections.Generic;
@@ -74,31 +75,36 @@ namespace ParcelLocker.Controllers
         [HttpGet]
         public IActionResult SendComplaint()
         {
-
-            var vm = new ComplaintAndReasonsVM
+            
+            var vm = new ComplaintReasonVM
             {
                 Reasons = _userService.GetComplaintReasons(),
             };
-
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (var item in vm.Reasons)
+            {
+                items.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.Name });
+            }
+            vm.SelectedReasons = items;
 
             return View(vm);
         }
         [HttpPost]
-        public IActionResult SendComplaint(ComplaintAndReasonsVM data)
+        public IActionResult SendComplaint(ComplaintReasonVM data)
         {
 
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("SendComplaint");
             }
-            var x = _userService.ReturnParcel(data.Complaint.Phone, data.Complaint.Email, data.Complaint.ParcelNumber, data.Complaint.Comment, data.Complaint.Reasons);
+            var x = _userService.ReturnParcel(data.Complaint.Phone, data.Complaint.Email, data.Complaint.ParcelNumber, data.Complaint.Comment, data.SelectedReasons);
             if (x)
             {
                 ViewBag.Message = "Pomyslnie zgloszono reklamacje";
                 ModelState.Clear();
             }
 
-            return View();
+            return RedirectToAction("SendComplaint");
         }
 
         [HttpGet]

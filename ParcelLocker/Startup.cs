@@ -33,7 +33,7 @@ namespace ParcelLocker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IComplaintReasonRepository, ComplaintReasonRepository>();
+            services.AddScoped<IReasonRepository, ReasonRepository>();
             services.AddScoped<IComplaintRepository, ComplaintRepository>();
             services.AddScoped<ILockerRepository, LockerRepository>();
             services.AddScoped<IParcelRepository, ParcelRepository>();
@@ -41,8 +41,11 @@ namespace ParcelLocker
             services.AddScoped<ILockerService, LockerService>();
             services.AddScoped<IParcelService, ParcelService>();
             services.AddScoped<IComplaintService, ComplaintService>();
-            services.AddScoped<IComplaintReasonService, ComplaintReasonService>();
+            services.AddScoped<IReasonService, ReasonService>();
             services.AddScoped<ICourierService, CourierService>();
+            services.AddScoped<IComplaintReasonRepository, ComplaintReasonRepository>();
+            services.AddScoped<IComplaintReasonService, ComplaintReasonService>();
+
            // services.AddDbContext<ParcelLockerContext>(options => options.UseMySQL(Configuration.GetConnectionString("ParcelLockerCS")));
             services.AddDbContext<ParcelLockerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ParcelLockerCS")));
             services.AddControllersWithViews();

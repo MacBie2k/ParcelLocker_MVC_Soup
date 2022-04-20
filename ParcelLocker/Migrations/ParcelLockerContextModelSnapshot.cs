@@ -19,21 +19,6 @@ namespace ParcelLocker.Migrations
                 .HasAnnotation("ProductVersion", "5.0.15")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ComplaintComplaintReason", b =>
-                {
-                    b.Property<int>("ComplaintsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReasonsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ComplaintsId", "ReasonsId");
-
-                    b.HasIndex("ReasonsId");
-
-                    b.ToTable("ComplaintComplaintReason");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -167,7 +152,7 @@ namespace ParcelLocker.Migrations
 
             modelBuilder.Entity("ParcelLocker.Models.Entities.Complaint", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ComplaintId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id")
@@ -192,7 +177,7 @@ namespace ParcelLocker.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("phone");
 
-                    b.HasKey("Id");
+                    b.HasKey("ComplaintId");
 
                     b.HasIndex("ParcelNumber");
 
@@ -201,18 +186,17 @@ namespace ParcelLocker.Migrations
 
             modelBuilder.Entity("ParcelLocker.Models.Entities.ComplaintReason", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ComplaintId")
                         .HasColumnType("int")
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("complaint_id");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("name");
+                    b.Property<int>("ReasonId")
+                        .HasColumnType("int")
+                        .HasColumnName("reason_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("ComplaintId", "ReasonId");
+
+                    b.HasIndex("ReasonId");
 
                     b.ToTable("complaint_reasons");
                 });
@@ -301,10 +285,6 @@ namespace ParcelLocker.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("city");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -320,10 +300,6 @@ namespace ParcelLocker.Migrations
                     b.Property<string>("ParcelNumber")
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("parcel_number");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasColumnName("id");
 
                     b.Property<string>("LockerCode")
                         .IsRequired()
@@ -367,19 +343,22 @@ namespace ParcelLocker.Migrations
                     b.ToTable("parcels");
                 });
 
-            modelBuilder.Entity("ComplaintComplaintReason", b =>
+            modelBuilder.Entity("ParcelLocker.Models.Entities.Reason", b =>
                 {
-                    b.HasOne("ParcelLocker.Models.Entities.Complaint", null)
-                        .WithMany()
-                        .HasForeignKey("ComplaintsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("ReasonId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasOne("ParcelLocker.Models.Entities.ComplaintReason", null)
-                        .WithMany()
-                        .HasForeignKey("ReasonsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
+
+                    b.HasKey("ReasonId");
+
+                    b.ToTable("reasons");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -444,6 +423,25 @@ namespace ParcelLocker.Migrations
                     b.Navigation("Parcel");
                 });
 
+            modelBuilder.Entity("ParcelLocker.Models.Entities.ComplaintReason", b =>
+                {
+                    b.HasOne("ParcelLocker.Models.Entities.Complaint", "Complaint")
+                        .WithMany("ComplaintReasons")
+                        .HasForeignKey("ComplaintId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ParcelLocker.Models.Entities.Reason", "Reason")
+                        .WithMany("ComplaintReasons")
+                        .HasForeignKey("ReasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Complaint");
+
+                    b.Navigation("Reason");
+                });
+
             modelBuilder.Entity("ParcelLocker.Models.Entities.Parcel", b =>
                 {
                     b.HasOne("ParcelLocker.Models.Entities.Locker", "Locker")
@@ -455,9 +453,19 @@ namespace ParcelLocker.Migrations
                     b.Navigation("Locker");
                 });
 
+            modelBuilder.Entity("ParcelLocker.Models.Entities.Complaint", b =>
+                {
+                    b.Navigation("ComplaintReasons");
+                });
+
             modelBuilder.Entity("ParcelLocker.Models.Entities.Locker", b =>
                 {
                     b.Navigation("Parcels");
+                });
+
+            modelBuilder.Entity("ParcelLocker.Models.Entities.Reason", b =>
+                {
+                    b.Navigation("ComplaintReasons");
                 });
 #pragma warning restore 612, 618
         }

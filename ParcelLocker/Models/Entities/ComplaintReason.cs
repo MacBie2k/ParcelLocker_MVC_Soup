@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ParcelLocker.Models.Entities
@@ -8,12 +7,12 @@ namespace ParcelLocker.Models.Entities
     public class ComplaintReason
     {
         [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        [Required]
-        [Column("name")]
-        public string Name { get; set; }
-        [Column("complaints")]
-        public ICollection<Complaint> Complaints { get; set; }
+        [Column("complaint_id", Order = 0)]
+        public int ComplaintId { get; set; }
+        [Key]
+        [Column("reason_id", Order = 1)]
+        public int ReasonId { get; set; }
+        public virtual Complaint Complaint { get; set; }
+        public virtual Reason Reason { get; set; }
     }
 }

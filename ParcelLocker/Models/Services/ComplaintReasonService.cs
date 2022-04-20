@@ -1,30 +1,38 @@
-﻿using ParcelLocker.Models.IRepositories;
+﻿using ParcelLocker.Models.Entities;
+using ParcelLocker.Models.IRepositories;
 using ParcelLocker.Models.IServices;
 using ParcelLocker.Models.ViewModels;
-using System.Collections.Generic;
 
 namespace ParcelLocker.Models.Services
 {
     public class ComplaintReasonService : IComplaintReasonService
     {
-        private readonly IComplaintReasonRepository _complaintReasonRepository;
-        public ComplaintReasonService(IComplaintReasonRepository complaintReasonRepository)
+        private readonly IComplaintReasonRepository _complaintRepository;
+        
+
+        public ComplaintReasonService(IComplaintReasonRepository complaintRepository)
         {
-            _complaintReasonRepository = complaintReasonRepository;
+            _complaintRepository = complaintRepository;
         }
-        public IEnumerable<ComplaintReasonVM> GetAllReasons()
+        public ComplaintReasonVM AddNewComplaintReason(ComplaintReasonVM complaintReasonVM)
         {
-            var reasons = _complaintReasonRepository.GetAll();
-            var reasonsVN = new List<ComplaintReasonVM>();
-            foreach (var reason in reasons)
+
+            if (complaintReasonVM == null)
             {
-                reasonsVN.Add(new ComplaintReasonVM
-                {
-                    Name = reason.Name,
-                    
-                });
+                return null;
             }
-            return reasonsVN;
+            foreach (var item in complaintReasonVM.Reasons)
+            {
+                var complaintReason = new ComplaintReason
+                {
+                    ComplaintId = complaintReasonVM.Complaint.Id,
+                    ReasonId = item.Id,
+                };
+                _complaintRepository.Add(complaintReason);
+            }
+
+            
+            return complaintReasonVM;
         }
     }
 }

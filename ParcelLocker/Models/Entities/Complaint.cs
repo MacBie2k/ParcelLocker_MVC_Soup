@@ -7,9 +7,10 @@ namespace ParcelLocker.Models.Entities
     [Table("complaints")]
     public class Complaint
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [Column("id")]
-        public int Id { get; set; }
+        public int  ComplaintId { get; set; }
         [Required]
         [Column("email")]
         public string Email { get; set; }
@@ -23,8 +24,6 @@ namespace ParcelLocker.Models.Entities
         public Parcel Parcel{ get; set; }
         [Column("comment")]
         public string Comment { get; set; }
-        [Required]
-        [Column("reasons")]
-        public ICollection<ComplaintReason> Reasons { get; set; }
+        public virtual ICollection<ComplaintReason> ComplaintReasons { get; set; }
     }
 }

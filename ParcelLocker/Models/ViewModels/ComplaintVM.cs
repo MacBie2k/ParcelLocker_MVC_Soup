@@ -10,6 +10,5 @@ namespace ParcelLocker.Models.ViewModels
         public string Phone { get; set; }
         public string ParcelNumber { get; set; }
         public string Comment { get; set; }
-        public ICollection<ComplaintReasonVM> Reasons { get; set; }
     }
 }

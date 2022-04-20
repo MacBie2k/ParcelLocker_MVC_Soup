@@ -1,4 +1,5 @@
-﻿using ParcelLocker.ExtensionMethods;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using ParcelLocker.ExtensionMethods;
 using ParcelLocker.Models.Entities;
 using ParcelLocker.Models.IServices;
 using ParcelLocker.Models.ModelViews;
@@ -14,12 +15,14 @@ namespace ParcelLocker.Models.Services
         private readonly IParcelService _parcelService;
         private readonly ILockerService _lockerService;
         private readonly IComplaintService _complaintService;
+        private readonly IReasonService _reasonService;
         private readonly IComplaintReasonService _complaintReasonService;
-        public UserService(IParcelService parcelService, ILockerService lockerService, IComplaintService complaintService, IComplaintReasonService complaintReasonService)
+        public UserService(IParcelService parcelService, ILockerService lockerService, IComplaintService complaintService, IReasonService reasonService, IComplaintReasonService complaintReasonService)
         {
             _parcelService = parcelService;
             _lockerService = lockerService;
             _complaintService = complaintService;
+            _reasonService = reasonService;
             _complaintReasonService = complaintReasonService;
         }
         public void SendParcel(string senderPhone, string senderEmail, string receiverPhone, string receiverEmail, string lockerCode)
@@ -65,16 +68,17 @@ namespace ParcelLocker.Models.Services
             }
         }
 
-        public bool ReturnParcel(string receiverPhone, string receiverEmail, string parcelNumber, string comment, ICollection<ComplaintReasonVM> reasons)
+        public bool ReturnParcel(string receiverPhone, string receiverEmail, string parcelNumber, string comment, List<SelectListItem> selectedReasons)
         {
-            var parcel = _parcelService.GetAllParcels().SingleOrDefault(x => x.ReceiverPhone == receiverPhone && x.PickupCode == parcelNumber && x.ReceiverEmail == receiverEmail);
+            var parcel = _parcelService.GetAllParcels().SingleOrDefault(x => x.ReceiverPhone == receiverPhone && x.ParcelNumber == parcelNumber && x.ReceiverEmail == receiverEmail);
             if (parcel != null && parcel.Status == Status.odebrana)
             {
                 parcel.Status = Status.zwrocona;
                 _parcelService.UpdateParcel(parcel);
-                var res = reasons.Select(x => new ComplaintReason
+                var reasons = selectedReasons.Where(x => x.Selected == true).Select(x => new ReasonVM
                 {
-                    Name = x.Name
+                    Id = Int32.Parse(x.Value),
+                    Name = x.Text,
                 }).ToList();
                 var complaintVM = new ComplaintVM
                 {
@@ -82,9 +86,9 @@ namespace ParcelLocker.Models.Services
                     Email = receiverEmail,
                     Phone = receiverPhone,
                     ParcelNumber = parcelNumber,
-                    Reasons = reasons
                 };
-                _complaintService.AddNewComplaint(complaintVM);
+                var complaintReasonVM = new ComplaintReasonVM { Complaint = _complaintService.AddNewComplaint(complaintVM), Reasons = reasons };
+                _complaintReasonService.AddNewComplaintReason(complaintReasonVM);
                 //dodawanie nowego zwrotu;
                 return true;
             }
@@ -95,9 +99,9 @@ namespace ParcelLocker.Models.Services
         {
             return _lockerService.GetAllLockers();
         }
-        public IEnumerable<ComplaintReasonVM> GetComplaintReasons()
+        public IEnumerable<ReasonVM> GetComplaintReasons()
         {
-            return _complaintReasonService.GetAllReasons();
+            return _reasonService.GetAllReasons();
         }
     }
 }

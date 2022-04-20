@@ -1,10 +1,9 @@
 ﻿using ParcelLocker.Models.ViewModels;
-using System.Collections.Generic;
 
 namespace ParcelLocker.Models.IServices
 {
     public interface IComplaintReasonService
     {
-        IEnumerable<ComplaintReasonVM> GetAllReasons();
+        public ComplaintReasonVM AddNewComplaintReason(ComplaintReasonVM complaintReasonVM);
     }
 }
