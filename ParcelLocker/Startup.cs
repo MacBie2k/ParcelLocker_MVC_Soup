@@ -45,6 +45,8 @@ namespace ParcelLocker
             services.AddScoped<ICourierService, CourierService>();
             services.AddScoped<IComplaintReasonRepository, ComplaintReasonRepository>();
             services.AddScoped<IComplaintReasonService, ComplaintReasonService>();
+            services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<IContactService, ContactService>();
 
            // services.AddDbContext<ParcelLockerContext>(options => options.UseMySQL(Configuration.GetConnectionString("ParcelLockerCS")));
             services.AddDbContext<ParcelLockerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ParcelLockerCS")));

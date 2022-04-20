@@ -113,5 +113,24 @@ namespace ParcelLocker.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public IActionResult SendMessage()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult SendMessage(ContactVM data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("SendMessage");
+            }
+            _userService.SendMessage(data.Name, data.Email, data.Message);
+            ViewBag.Message = "Pomyslnie wyslano wiadomosc";
+            ModelState.Clear();
+            return View();
+        }
     }
 }

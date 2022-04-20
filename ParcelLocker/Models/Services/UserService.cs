@@ -17,13 +17,15 @@ namespace ParcelLocker.Models.Services
         private readonly IComplaintService _complaintService;
         private readonly IReasonService _reasonService;
         private readonly IComplaintReasonService _complaintReasonService;
-        public UserService(IParcelService parcelService, ILockerService lockerService, IComplaintService complaintService, IReasonService reasonService, IComplaintReasonService complaintReasonService)
+        private readonly IContactService _contactService;
+        public UserService(IParcelService parcelService, ILockerService lockerService, IComplaintService complaintService, IReasonService reasonService, IComplaintReasonService complaintReasonService, IContactService contactService)
         {
             _parcelService = parcelService;
             _lockerService = lockerService;
             _complaintService = complaintService;
             _reasonService = reasonService;
             _complaintReasonService = complaintReasonService;
+            _contactService = contactService;
         }
         public void SendParcel(string senderPhone, string senderEmail, string receiverPhone, string receiverEmail, string lockerCode)
         {
@@ -68,6 +70,16 @@ namespace ParcelLocker.Models.Services
             }
         }
 
+        public void SendMessage(string name, string email, string message)
+        {
+            var parcel = new ContactVM
+            {
+                Email = email,
+                Message = message,
+                Name = name,
+            };
+            _contactService.AddNewContact(parcel);
+        }
         public bool ReturnParcel(string receiverPhone, string receiverEmail, string parcelNumber, string comment, List<SelectListItem> selectedReasons)
         {
             var parcel = _parcelService.GetAllParcels().SingleOrDefault(x => x.ReceiverPhone == receiverPhone && x.ParcelNumber == parcelNumber && x.ReceiverEmail == receiverEmail);

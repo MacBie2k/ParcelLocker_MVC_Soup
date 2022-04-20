@@ -20,7 +20,7 @@ namespace ParcelLocker.Models
         public DbSet<Parcel> Parcels { get; set; }
         public DbSet<Locker> Lockers { get; set; }
         public DbSet<Reason> Reasons { get; set; }
-
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<ComplaintReason> ComplaintReasons { get; set; }
 
     }
